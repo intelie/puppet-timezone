@@ -27,7 +27,7 @@ class timezone($zone = 'America/Sao_Paulo') {
     centos, redhat: {
       file { '/etc/sysconfig/clock':
         ensure  => present,
-        content => 'ZONE="${zone}"',
+        content => "ZONE='${zone}'",
         } ~> exec { 'tzdata-update':
           path        => '/usr/sbin/',
           refreshonly => true
