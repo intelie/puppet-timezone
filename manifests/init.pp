@@ -25,13 +25,18 @@
 class timezone($zone = 'America/Sao_Paulo') {
   case $operatingsystem {
     centos, redhat: {
-      file { '/etc/sysconfig/clock':
-        ensure  => present,
-        content => "ZONE='${zone}'",
-        } ~> exec { 'tzdata-update':
+        file { '/etc/sysconfig/clock':
+          ensure  => present,
+          content => "ZONE='${zone}'",
+        } ~> exec { "zic -l ${zone}":
           path        => '/usr/sbin/',
           refreshonly => true
         }
+        
+        # ~> exec { 'tzdata-update':
+          #path        => '/usr/sbin/',
+          #refreshonly => true
+        #}
     }
     #debian, ubuntu: {
     # TODO
